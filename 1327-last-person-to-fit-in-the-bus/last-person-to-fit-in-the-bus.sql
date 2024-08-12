@@ -1,12 +1,10 @@
 /* Write your T-SQL query statement below */
-with cte as (
-select * ,sum(weight) over (order by turn) AS CumulativeSum
+select top 1 person_name 
+from (
+select person_name  ,sum(weight) over (order by turn) AS CumulativeSum
 from Queue 
-)
-
-select top 1 person_name  
-from cte 
-where CumulativeSum <=1000
-order by CumulativeSum desc
+) q
+where q.CumulativeSum <= 1000
+order by q.CumulativeSum desc
 
 
