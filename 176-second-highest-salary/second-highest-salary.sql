@@ -1,5 +1,8 @@
 /* Write your T-SQL query statement below */
-select max(salary) as SecondHighestSalary 
-from Employee
-where salary < (select max(salary) from Employee)
-
+with cte as (
+    select * , dense_rank() over (order by salary desc) as rank
+    from Employee 
+     )
+    select max(salary) as SecondHighestSalary 
+    from cte
+    where rank = 2
